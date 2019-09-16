@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Usuario</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{index1.init()}"/>
+            
+        </f:metadata>
+    </h:head>
+    <h:body>
+        
+        <h:form>    
+        <p:growl id="growl" showDetail="true" sticky="true"/>
+
+
+        <p:panel id="pn1" header="Sumar" style="margin-bottom:10px;">
+
+            <p:messages id="messages" />
+            <h:panelGrid columns="3" cellpadding="5">
+                <h:outputLabel for="numero1" value="Numero1: *" />
+                <p:inputText id="numero1" value="#{index1.num1}" required="true" label="Numero1">
+                </p:inputText>
+                <p:message for="numero1" />
+
+                <h:outputLabel for="numero2" value="Numero2: *" />
+                <p:inputText id="numero2" value="#{index1.num2}" required="true" label="Numero2"/>
+                <p:message for="numero2" />
+            </h:panelGrid>
+
+            <p:commandButton id="saveBtn" value="Sumar" icon="pi pi-check" style="margin:0" action="#{index1.sumar()}" update="growl"/>
+            
+            
+
+        </p:panel>
+        <p:commandButton  value="Cerrar Sesion"  action="#{index.cerrarSesion()}" />
+        </h:form>
+    </h:body>
+</html>
