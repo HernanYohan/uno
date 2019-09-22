@@ -5,7 +5,7 @@
  */
 package com.mycompany.bean;
 
-import interfaces.IAlgo;
+import com.mycompany.interfaces.IAlgo;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,7 +15,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-import utilitarios.Usuario;
+import com.mycompany.utilitarios.UUsuario;
 
 /**
  *
@@ -32,24 +32,20 @@ public class Index1 {
     private IAlgo algo;
 
     public void init() {
-        ;
+
         FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
-        Usuario usu = (Usuario) session.getAttribute("Usuario");
+        UUsuario usu = (UUsuario) session.getAttribute("Usuario");
 
-        try {
+        if (usu == null) {
+            FacesContext.getCurrentInstance().getApplication().getNavigationHandler().
+                    handleNavigation(FacesContext.getCurrentInstance(), null, "index.xhtml?faces-redirect=true");
+
+        } else {
             if (usu.getRol() == 2) {
                 FacesContext.getCurrentInstance().getApplication().getNavigationHandler().
-                handleNavigation(FacesContext.getCurrentInstance(), null, "index1.xhtml?faces-redirect=true");
-            } else {
-                if (usu == null) {
-                    facesContext.getExternalContext().redirect("index.xhtml");
-
-                }
+                        handleNavigation(FacesContext.getCurrentInstance(), null, "index2.xhtml?faces-redirect=true");
             }
-
-        } catch (IOException ex) {
-            Logger.getLogger(Index1.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

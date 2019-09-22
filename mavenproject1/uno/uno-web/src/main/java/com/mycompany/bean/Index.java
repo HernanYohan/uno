@@ -5,7 +5,8 @@
  */
 package com.mycompany.bean;
 
-import interfaces.IUsuario;
+import com.mycompany.interfaces.IUsuario;
+import com.mycompany.interfaces.IUsuarioFacade;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
@@ -17,7 +18,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-import utilitarios.Usuario;
+import com.mycompany.utilitarios.UUsuario;
 
 /**
  *
@@ -31,36 +32,31 @@ public class Index implements Serializable {
 
     private String clave;
 
-    private Usuario usu;
+    private UUsuario usu;
 
     @EJB
-    private IUsuario nuevo;
+    private IUsuarioFacade user;
 
     public Index() {
-        usu = new Usuario();
+        usu = new UUsuario();
     }
 
     public void iniciarSesion() {
 
-        usu = nuevo.loggin(nombre, clave);
-        if (usu.getNombre() != null) {
+        usu = user.login(nombre, clave);
+        if (usu.getUsuario() != null) {
             
             FacesContext facesContext = FacesContext.getCurrentInstance();
             HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
             session.setAttribute("Usuario", usu);
 
-           try{
-               if(usu.getRol()==1){
-                    FacesContext.getCurrentInstance().getApplication().getNavigationHandler().
-                   handleNavigation(FacesContext.getCurrentInstance(), null, "index1.xhtml?faces-redirect=true");
-               }else{
-                  FacesContext.getCurrentInstance().getApplication().getNavigationHandler().
-                   handleNavigation(FacesContext.getCurrentInstance(), null, "index2.xhtml?faces-redirect=true");
-               }
-             facesContext.getExternalContext().redirect("index.xhtml");
-                } catch(IOException ex){
-                Logger.getLogger(Index.class.getName()).log(Level.SEVERE,null,ex);
-                }
+            if(usu.getRol()==1){
+                FacesContext.getCurrentInstance().getApplication().getNavigationHandler().
+                        handleNavigation(FacesContext.getCurrentInstance(), null, "index1.xhtml?faces-redirect=true");
+            }else{
+                FacesContext.getCurrentInstance().getApplication().getNavigationHandler().
+                        handleNavigation(FacesContext.getCurrentInstance(), null, "index2.xhtml?faces-redirect=true");
+            }
         } else {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "error", "Credenciales incorrectas");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -80,21 +76,14 @@ public class Index implements Serializable {
         
     }
 
-    public Usuario getUsu() {
+    public UUsuario getUsu() {
         return usu;
     }
 
-    public void setUsu(Usuario usu) {
+    public void setUsu(UUsuario usu) {
         this.usu = usu;
     }
 
-    public IUsuario getNuevo() {
-        return nuevo;
-    }
-
-    public void setNuevo(IUsuario nuevo) {
-        this.nuevo = nuevo;
-    }
 
     public String getNombre() {
         return nombre;

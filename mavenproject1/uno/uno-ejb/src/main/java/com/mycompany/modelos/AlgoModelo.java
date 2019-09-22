@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package modelos;
+package com.mycompany.modelos;
 
-import interfaces.IAlgo;
+import com.mycompany.interfaces.IAlgo;
 import javax.ejb.Stateful;
 
 /**

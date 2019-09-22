@@ -3,17 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package interfaces;
+package com.mycompany.interfaces;
 
 import javax.ejb.Local;
+import com.mycompany.utilitarios.UUsuario;
 
 /**
  *
- * @author CamiloAlvarez
+ * @author Hernan
  */
 @Local
-public interface IAlgo {
-    public int sumar(int n1, int n2);
+public interface IUsuario {
+     
+    public UUsuario loggin(String Nombre,String Clave);
     
-     public int restar(int n1, int n2);
+    public void cerrarSesion();
+    
 }
